@@ -22,10 +22,48 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
-import { useAtom } from "jotai"
-import { eventAtom } from "../providers"
 import { useRouter } from "next/navigation"
 import { createEvent } from "../actions"
+import { uniqueNamesGenerator, Config, adjectives } from 'unique-names-generator';
+import { useState } from "react"
+
+const micMembersNames = [
+  'jivaro',
+  'nando',
+  'ferran',
+  'jordi',
+  'espinete',
+  'roura',
+  'paco',
+  'guisan',
+  'vilas',
+  'keroana',
+  'carmeta',
+  'nuria',
+  'isabel',
+  'milena',
+  'lotta',
+  'albert',
+  'fufi',
+  'xisca',
+  'mariona',
+  'lot',
+  'damian',
+  'vanessa',
+  'silvia',
+  'ignasi',
+  'mailen',
+  'vinyet',
+  'nil',
+  'adriansito'
+]
+
+const customConfig: Config = {
+  dictionaries: [adjectives, micMembersNames],
+  separator: ' ',
+  style: 'capital',
+  length: 2,
+};
 
 export const EventFormSchema = z.object({
   name: z.string().min(5, {
@@ -36,25 +74,29 @@ export const EventFormSchema = z.object({
 })
 
 export default function EventForm() {
-  const [, setEvent] = useAtom(eventAtom)
   const router = useRouter();
+  const [eventName, setEventName] = useState<string>(uniqueNamesGenerator(customConfig))
   const form = useForm<z.infer<typeof EventFormSchema>>({
     resolver: zodResolver(EventFormSchema),
     defaultValues: {
-      name: "",
+      name: eventName,
       event_date: new Date(),
       place: "",
     },
   })
 
+  function updateEventName() {
+    setEventName(uniqueNamesGenerator(customConfig))
+  }
+
   function onSubmit(data: z.infer<typeof EventFormSchema>) {
-    setEvent(data)
     createEvent(data)
+    router.push(`/summary/${eventName}`)
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="name"
@@ -62,15 +104,16 @@ export default function EventForm() {
             <FormItem>
               <FormLabel>Nom</FormLabel>
               <FormControl>
-                <Input placeholder="Títol" {...field} />
+                <Input placeholder="Títol" {...field} value={eventName} />
               </FormControl>
               <FormDescription>
-                Nom de l'esdeveniment
+                Nom de l'esdeveniment generat aleatoriament. Si no t'agrada <span className="text-blue-700 cursor-pointer" onClick={() => updateEventName()}>click aquí</span>
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="event_date"
@@ -84,7 +127,7 @@ export default function EventForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
+                          "w-full pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -117,6 +160,7 @@ export default function EventForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="place"
@@ -133,7 +177,8 @@ export default function EventForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Crear</Button>
+
+        <Button size="lg" className="w-full" type="submit">Crear</Button>
       </form>
     </Form>
   );

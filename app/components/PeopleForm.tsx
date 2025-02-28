@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { addPerson } from "../actions"
+import { useRouter } from "next/navigation"
 
 const softDrinks = ['aigua',
   'cola',
@@ -34,6 +35,7 @@ const hardDrinks = [
 const meats = [
   "xai",
   "botifarra",
+  "botifarra_negre",
   "papada",
   "careta",
   "xoriço",
@@ -63,9 +65,10 @@ export const PersonFormSchema = z.object({
     path: ['drinks']
   })
 
-export default function PeopleForm() {
+export default function PeopleForm({ id }: { id: string }) {
   const meatsObj = meats.map(meat => ({ id: meat, label: meat }))
   const drinksObj = [...softDrinks, ...hardDrinks].map(drink => ({ id: drink, label: drink }))
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof PersonFormSchema>>({
     resolver: zodResolver(PersonFormSchema),
@@ -80,7 +83,8 @@ export default function PeopleForm() {
   })
 
   function onSubmit(data: z.infer<typeof PersonFormSchema>) {
-    addPerson(data)
+    addPerson({ ...data, event_name: decodeURI(id) })
+    router.push(`/summary/${id}`)
   }
 
   return (
@@ -93,7 +97,7 @@ export default function PeopleForm() {
             <FormItem>
               <FormLabel>Nom</FormLabel>
               <FormControl>
-                <Input className="p-6 text-lg" placeholder="El teu nome" {...field} />
+                <Input placeholder="El teu nome" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -264,7 +268,6 @@ export default function PeopleForm() {
             )
           }}
         />
-
         <Button size="lg" className="w-full" type="submit">Afegir</Button>
       </form>
     </Form>
