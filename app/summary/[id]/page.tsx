@@ -10,6 +10,7 @@ import Meat from "@/app/components/Meat"
 import Others from "@/app/components/Others"
 import Snacks from "@/app/components/Snacks"
 import { getShoppingList } from "@/app/utils"
+import Link from "next/link"
 
 export default async function EventSummaryPage({ params }: { params: { id: string } }) {
   const { id } = await params
@@ -21,8 +22,9 @@ export default async function EventSummaryPage({ params }: { params: { id: strin
       <h3 className="font-bold">
         <span className="text-4xl bg-black text-white">{`${decodeURI(id)}`}</span><br />
         <span className="text-5xl bg-black text-white">{dataEvent.event_date}</span><br />
-        <span className="text-2xl bg-black text-white">{dataEvent.place}</span>
+        <span className="text-2xl bg-black text-white">📍{dataEvent.place}</span>
       </h3>
+      <Link href={`/people/${id}`}><span className="font-bold text-white bg-black">🔗 Anar al registre d'assistents</span></Link>
       <p className="font-bold">Assistents: {dataPeople.map(i => i.name).join(', ')}</p>
       <Drinks drinks={shoppingList.drinks} />
       <Calzots calzots={shoppingList.calzots} />
