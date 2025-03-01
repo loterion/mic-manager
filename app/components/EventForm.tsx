@@ -91,7 +91,7 @@ export default function EventForm() {
 
   function onSubmit(data: z.infer<typeof EventFormSchema>) {
     createEvent(data)
-    router.push(`/summary/${eventName}`)
+    router.push(`/people/${eventName}`)
   }
 
   return (

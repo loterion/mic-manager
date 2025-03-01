@@ -27,11 +27,12 @@ export async function getEventPeople(eventName: string){
     .from('people')
     .select()
     .eq('event_name', eventName)
-    if(error) {
-      console.log({error})
-      notFound()
-    }
-    return data
+  
+  if(error) {
+    console.log({error})
+    notFound()
+  }
+  return data
 }
 
 export async function createEvent(data: z.infer<typeof EventFormSchema>) {
