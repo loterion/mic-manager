@@ -84,7 +84,7 @@ export default function PeopleForm({ id }: { id: string }) {
 
   function onSubmit(data: z.infer<typeof PersonFormSchema>) {
     addPerson({ ...data, event_name: decodeURI(id) })
-    router.push(`/summary/${id}`)
+    router.push(`/people/${id}/gracies`)
   }
 
   return (

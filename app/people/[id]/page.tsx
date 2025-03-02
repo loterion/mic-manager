@@ -12,7 +12,7 @@ export default async function People({ params }: { params: Promise<{ id: string 
         <span className="text-5xl bg-black text-white">{dataEvent.event_date}</span><br />
         <span className="text-2xl bg-black text-white">📍{dataEvent.place}</span>
       </h3>
-      <Link href={`/summary/${id}`}><span className="font-bold text-white bg-black">🔗 Anar al resum</span></Link>
+      <Link href={`/summary/${id}`}><span className="font-bold text-white bg-black">Anar al resum 👉</span></Link>
       <h4 className="text-2xl font-bold">Alta de participants</h4>
       <PeopleForm id={id} />
     </>
