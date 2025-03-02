@@ -156,7 +156,7 @@ export default function PeopleForm({ id }: { id: string }) {
               <div className="mb-4">
                 <FormLabel className="text-base">Carn</FormLabel>
                 <FormDescription>
-                  Quines carns t'agraden?
+                  Quines carns t&apos;agraden?
                 </FormDescription>
               </div>
               {meatsObj.map((item: { id: string, label: string }) => (

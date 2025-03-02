@@ -13,7 +13,7 @@ import Snacks from "@/app/components/Snacks"
 import { getShoppingList } from "@/app/utils"
 import Link from "next/link"
 
-export default async function EventSummaryPage({ params }: { params: { id: string } }) {
+export default async function EventSummaryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const dataEvent = await getEvent(decodeURI(id))
   const dataPeople = await getEventPeople(decodeURI(id))

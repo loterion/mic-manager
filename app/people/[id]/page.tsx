@@ -2,7 +2,7 @@ import Link from "next/link"
 import PeopleForm from "../../components/PeopleForm"
 import { getEvent } from "@/app/actions"
 
-export default async function People({ params }: { params: { id: string } }) {
+export default async function People({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const dataEvent = await getEvent(decodeURI(id))
   return (

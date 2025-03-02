@@ -21,7 +21,7 @@ function calculateDrinks(data: z.infer<typeof PersonFormSchema>[]){
     'vi_negre': 0.5,
     'vermut': 0.3
   }
-
+  
   return R.pipe(
     R.reduce((acc, i) => [...acc, ...i.drinks], []),
     R.countBy(R.identity),

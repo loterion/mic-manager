@@ -107,7 +107,7 @@ export default function EventForm() {
                 <Input placeholder="Títol" {...field} value={eventName} />
               </FormControl>
               <FormDescription>
-                Nom de l'esdeveniment generat aleatoriament. Si no t'agrada <span className="text-blue-700 cursor-pointer" onClick={() => updateEventName()}>click aquí</span>
+                Nom de l&apos;esdeveniment generat aleatoriament. Si no t&apos;agrada <span className="text-blue-700 cursor-pointer" onClick={() => updateEventName()}>click aquí</span>
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -154,7 +154,7 @@ export default function EventForm() {
                 </Popover>
               </FormControl>
               <FormDescription>
-                Data de l'esdeveniment
+                Data de l&apos;esdeveniment
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -171,7 +171,7 @@ export default function EventForm() {
                 <Input placeholder="Lloc" {...field} />
               </FormControl>
               <FormDescription>
-                Lloc de l'esdeveniment
+                Lloc de l&apos;esdeveniment
               </FormDescription>
               <FormMessage />
             </FormItem>

@@ -48,7 +48,7 @@ export async function createEvent(data: z.infer<typeof EventFormSchema>) {
     } 
 }
 
-export async function addPerson(data: z.infer<typeof PersonFormSchema>) {
+export async function addPerson(data: { event_name: string } & z.infer<typeof PersonFormSchema>) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { error } = await supabase
