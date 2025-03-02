@@ -2,14 +2,13 @@ import * as R from 'ramda'
 import z from 'zod'
 import { PersonFormSchema } from '../components/PeopleForm'
 
-function getCalzotsAmount(data: z.infer<typeof PersonFormSchema>[]): number {
+function calculateCalzots(data: z.infer<typeof PersonFormSchema>[]): number {
   const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
   const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
-  console.log({adultsCount, childCount})
   return (adultsCount * 20) + (childCount * 10)
 }
 
-function getDrinksAmount(data: z.infer<typeof PersonFormSchema>[]){
+function calculateDrinks(data: z.infer<typeof PersonFormSchema>[]){
   const drinkConversion = {
     'aigua': 0.5,
     'cola': 0.5,
@@ -30,7 +29,7 @@ function getDrinksAmount(data: z.infer<typeof PersonFormSchema>[]){
   )(data)
 }
 
-function getMeatAmount(data: z.infer<typeof PersonFormSchema>[]) {
+function calculateMeat(data: z.infer<typeof PersonFormSchema>[]) {
   const meatConversion = {
     xai: 0.1,
     botifarra: 0.1,
@@ -49,10 +48,20 @@ function getMeatAmount(data: z.infer<typeof PersonFormSchema>[]) {
   )(data)
 }
 
+export function calculateBread(people: number){
+  return ((people * 2) / 12).toFixed(1)
+}
+
+export function calculateSauce(people: number){
+  return (people * 0.2).toFixed(1)
+}
+
 export function getShoppingList(data: z.infer<typeof PersonFormSchema>[]){
   return {
-    calzots: getCalzotsAmount(data),
-    drinks: getDrinksAmount(data),
-    meat: getMeatAmount(data)
+    calzots: calculateCalzots(data),
+    sauce: calculateSauce(data.length),
+    drinks: calculateDrinks(data),
+    meat: calculateMeat(data),
+    bread: calculateBread(data.length)
   }
 }

@@ -13,6 +13,7 @@ export async function getEvent(eventName: string){
     .from('events')
     .select()
     .eq('name', eventName)
+
     if(error) {
       console.log({error})
       notFound()
@@ -57,4 +58,47 @@ export async function addPerson(data: z.infer<typeof PersonFormSchema>) {
     console.log({error})
     notFound()
   } 
+}
+
+export async function insertPeopleTask(data: {name: string, people: string[], event_name: string}){
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+  const { error } = await supabase
+  .from('tasks')
+  .insert([
+    data,
+  ])
+  if(error) {
+    console.log({error})
+    notFound()
+  }
+}
+
+export async function updatePeopleTask(data: {name: string, people: string[], event_name: string}){
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+  const { error } = await supabase
+    .from('tasks')
+    .update({ people: data.people })
+    .eq('event_name', data.event_name)
+    .eq('name', data.name)
+  if(error) {
+    console.log({error})
+    notFound()
+  }
+}
+
+export async function getPeopleTask(eventName:string, taskName: string){
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+  const { data, error } = await supabase
+    .from('tasks')
+    .select()
+    .eq('event_name', eventName)
+    .eq('name', taskName)
+  if(error) {
+    console.log({error})
+    notFound()
+  }
+  return data[0]
 }

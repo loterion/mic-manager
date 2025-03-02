@@ -1,7 +1,10 @@
-export default function Drinks({ drinks }) {
+import TaskHeader from "./TaskHeader"
+
+type drinkType = Record<string, string>
+export default function Drinks({ drinks, id }: { drinks: drinkType, id: string }) {
   return (
     <div>
-      <h4 className="text-4xl font-bold bg-black text-white">Begudes</h4>
+      <TaskHeader taskName='Begudes 🍷' taskId="drinks" id={id} />
       <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
         {Object.entries(drinks).map(([key, value]) =>
           <li key={`${key}: ${value}L`} className="p-2">

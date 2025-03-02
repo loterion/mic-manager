@@ -1,7 +1,10 @@
-export default function Meat({ meat }) {
+import TaskHeader from "./TaskHeader"
+
+type meatType = Record<string, string>
+export default function Meat({ meat, id }: { meat: meatType, id: string }) {
   return (
     <div>
-      <h4 className="text-4xl font-bold bg-black text-white">Carn</h4>
+      <TaskHeader taskName='Carn 🥓' taskId="meat" id={id} />
       <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
         {Object.entries(meat).map(([key, value]) =>
           <li key={`${key}: ${value}L`} className="p-2">

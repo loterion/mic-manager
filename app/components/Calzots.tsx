@@ -1,8 +1,10 @@
-export default function Calzots({ calzots }) {
+import TaskHeader from "./TaskHeader";
+
+export default function Calzots({ calzots, id }: { calzots: number, id: string }) {
   return (
     <div>
-      <h4 className="text-4xl font-bold bg-black text-white">Calçots</h4>
-      <h4 className="text-9xl font-bold">{calzots}</h4>
+      <TaskHeader taskName='Calçots 🧅' taskId="calzots" id={id} />
+      <h4 className="text-9xl font-bold">{calzots}u</h4>
     </div>
   )
 }

@@ -1,7 +1,9 @@
-export default function Others() {
+import TaskHeader from "./TaskHeader";
+
+export default function Others({ id }: { id: string }) {
   return (
     <div>
-      <h4 className="text-4xl font-bold bg-black text-white">Altres</h4>
+      <TaskHeader taskName='Altres 🍽️' taskId="others" id={id} />
       <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
         <li className="p-2 font-bold">Sal</li>
         <li className="p-2 font-bold">Paper de cuina</li>

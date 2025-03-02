@@ -5,12 +5,11 @@ import { getEvent } from "@/app/actions"
 export default async function People({ params }: { params: { id: string } }) {
   const { id } = await params
   const dataEvent = await getEvent(decodeURI(id))
-
   return (
     <>
       <h3 className="font-bold">
-        <span className="text-4xl bg-black text-white">{`${decodeURI(id)}`}</span><br />
-        <span className="text-5xl bg-black text-white">🗓️{dataEvent.event_date}</span><br />
+        <span className="text-4xl bg-black text-white">{dataEvent.name}</span><br />
+        <span className="text-5xl bg-black text-white">{dataEvent.event_date}</span><br />
         <span className="text-2xl bg-black text-white">📍{dataEvent.place}</span>
       </h3>
       <Link href={`/summary/${id}`}><span className="font-bold text-white bg-black">🔗 Anar al resum</span></Link>

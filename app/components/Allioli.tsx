@@ -1,7 +1,9 @@
-export default function Allioli() {
+import TaskHeader from "./TaskHeader";
+
+export default function Allioli({ id }: { id: string }) {
   return (
     <div>
-      <h4 className="text-4xl font-bold bg-black text-white">Allioli</h4>
+      <TaskHeader taskName='Allioli 🤐' taskId="allioli" id={id} />
       <p className="p-2 font-bold">Fet o comprat</p>
     </div>
   )

@@ -38,7 +38,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer className="row-start-3 max-w-[360] flex mt-8 text-xs flex-wrap items-center justify-center">
-              <p className="text-xs mb-4"><strong>Disclaimer:</strong> aquest projecte només busca facilitar el càlcul de quantitats i el repartiment de responsabilitats en un MIC (Massiva Ingesta de Calçots). Per qualsevol errada "hablen con mi abogado".</p>
+              <p className="text-xs mb-4"><strong>Disclaimer:</strong> Aquest projecte només busca facilitar el càlcul de quantitats i el repartiment de responsabilitats en un MIC (Massiva Ingesta de Calçots). Per qualsevol errada "hablen con mi abogado".</p>
               <p className="text-xs">by Lot Gállego</p>
             </footer>
           </div>
