@@ -13,17 +13,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
 import { union } from "ramda"
-import { getPeopleTask, insertPeopleTask, updatePeopleTask } from "../actions"
-
-export const FormSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Introdueix un nom vàlid'
-  }),
-})
+import { getEventPeople, getPeopleTask, insertPeopleTask, updatePeopleTask } from "../actions"
 
 export default function TaskHeader({ taskName, taskId, id }: { taskName: string, taskId: string, id: string }) {
   const [personsInCharge, setPersonsInCharge] = useState<string[]>([])
   const [showForm, setShowForm] = useState(false)
+  const [eventPeople, setEventPeople] = useState([])
 
   const fetchPeopleTask = async (eventName: string, taskName: string) => {
     const res = await getPeopleTask(eventName, taskName)
@@ -35,6 +30,22 @@ export default function TaskHeader({ taskName, taskId, id }: { taskName: string,
   useEffect(() => {
     fetchPeopleTask(id, taskId)
   }, [])
+
+  useEffect(() => {
+    const fetchEventPeople = async () => {
+      const res = await getEventPeople(id)
+      if (res?.length) {
+        setEventPeople(res.filter(i => !i.child).map(i => i.name))
+      }
+    }
+    fetchEventPeople()
+  }, [])
+
+  const FormSchema = z.object({
+    name: z.enum(eventPeople, {
+      message: 'Introdueix un nom vàlid'
+    }),
+  })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

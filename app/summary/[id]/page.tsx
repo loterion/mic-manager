@@ -9,9 +9,9 @@ import Drinks from "@/app/components/Drinks"
 import Firewood from "@/app/components/Firewood"
 import Meat from "@/app/components/Meat"
 import Others from "@/app/components/Others"
+import ResumAssistents from "@/app/components/ResumAssistents"
 import Snacks from "@/app/components/Snacks"
 import { getShoppingList } from "@/app/utils"
-import Link from "next/link"
 
 export default async function EventSummaryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -25,23 +25,7 @@ export default async function EventSummaryPage({ params }: { params: Promise<{ i
         <span className="text-5xl bg-black text-white">{dataEvent.event_date}</span><br />
         <span className="text-2xl bg-black text-white">📍{dataEvent.place}</span>
       </h3>
-      <div>
-        <div>
-          <h4 className="text-4xl font-bold bg-black text-white">Resum assistents</h4>
-          <dl className="max-w-md divide-y divide-gray-200">
-            {
-              dataPeople.map(i => (
-                <div key={`item-${i.name}`} className="flex flex-col pb-3">
-                  <dt className="mb-1 text-sm font-bold mt-2">{i.name}</dt>
-                  <dd className="text-xs">Carns: {i.meat.join(', ')}</dd>
-                  <dd className="text-xs">Begudes: {i.drinks.join(', ')}</dd>
-                </div>
-              ))
-            }
-          </dl>
-        </div>
-        <Link href={`/people/${id}`}><span className="font-bold text-white bg-black">Afegir assistent 👉</span></Link>
-      </div>
+      <ResumAssistents dataPeople={dataPeople} id={id} />
       <Calzots calzots={shoppingList.calzots} id={decodeURI(id)} />
       <CalzotsSauce amount={shoppingList.sauce} id={decodeURI(id)} />
       <Meat meat={shoppingList.meat} id={decodeURI(id)} />
