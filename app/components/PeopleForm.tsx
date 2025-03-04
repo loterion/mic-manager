@@ -97,7 +97,7 @@ export default function PeopleForm({ id }: { id: string }) {
             <FormItem>
               <FormLabel>Nom</FormLabel>
               <FormControl>
-                <Input placeholder="El teu nome" {...field} />
+                <Input placeholder="El teu nom" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

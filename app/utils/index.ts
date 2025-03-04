@@ -5,7 +5,7 @@ import { PersonFormSchema } from '../components/PeopleForm'
 function calculateCalzots(data: z.infer<typeof PersonFormSchema>[]): number {
   const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
   const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
-  return (adultsCount * 20) + (childCount * 10)
+  return (adultsCount * 15) + (childCount * 10)
 }
 
 function calculateDrinks(data: z.infer<typeof PersonFormSchema>[]){
@@ -21,7 +21,7 @@ function calculateDrinks(data: z.infer<typeof PersonFormSchema>[]){
     'vi_negre': 0.5,
     'vermut': 0.3
   }
-  
+
   return R.pipe(
     R.reduce((acc, i) => [...acc, ...i.drinks], []),
     R.countBy(R.identity),
@@ -48,20 +48,29 @@ function calculateMeat(data: z.infer<typeof PersonFormSchema>[]) {
   )(data)
 }
 
-export function calculateBread(people: number){
-  return ((people * 2) / 12).toFixed(1)
+export function calculateBread(data: z.infer<typeof PersonFormSchema>[]){
+  const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
+  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
+  return ((adultsCount * 2 + childCount + 1.5) / 12).toFixed(1)
 }
 
-export function calculateSauce(people: number){
-  return (people * 0.2).toFixed(1)
+export function calculateSauce(data: z.infer<typeof PersonFormSchema>[]){
+  const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
+  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
+  return (adultsCount * 0.2 + childCount * 0.1).toFixed(1)
+}
+
+export function calculateIce(people: number){
+  return (0.6 * people).toFixed(1)
 }
 
 export function getShoppingList(data: z.infer<typeof PersonFormSchema>[]){
   return {
     calzots: calculateCalzots(data),
-    sauce: calculateSauce(data.length),
+    sauce: calculateSauce(data),
     drinks: calculateDrinks(data),
     meat: calculateMeat(data),
-    bread: calculateBread(data.length)
+    bread: calculateBread(data),
+    ice: calculateIce(data.length)
   }
 }

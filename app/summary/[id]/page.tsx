@@ -7,6 +7,7 @@ import Coffee from "@/app/components/Coffee"
 import Deserts from "@/app/components/Deserts"
 import Drinks from "@/app/components/Drinks"
 import Firewood from "@/app/components/Firewood"
+import Ice from "@/app/components/Ice"
 import Meat from "@/app/components/Meat"
 import Others from "@/app/components/Others"
 import ResumAssistents from "@/app/components/ResumAssistents"
@@ -34,6 +35,7 @@ export default async function EventSummaryPage({ params }: { params: Promise<{ i
       <Others id={decodeURI(id)} />
       <Snacks id={decodeURI(id)} />
       <Firewood id={decodeURI(id)} />
+      <Ice ice={shoppingList.ice} id={decodeURI(id)} />
       <Allioli id={decodeURI(id)} />
       <Deserts id={decodeURI(id)} />
       <Coffee id={decodeURI(id)} />

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "La calçotadora",
+  title: "MIC Manager",
   description: "Un humil assistent per a organitzar calçotadas amb amics",
 };
 

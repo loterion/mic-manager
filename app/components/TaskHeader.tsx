@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
 import { union } from "ramda"
 import { getEventPeople, getPeopleTask, insertPeopleTask, updatePeopleTask } from "../actions"
+import { PeopleType } from "../types"
 
 export default function TaskHeader({ taskName, taskId, id }: { taskName: string, taskId: string, id: string }) {
   const [personsInCharge, setPersonsInCharge] = useState<string[]>([])
@@ -33,7 +34,7 @@ export default function TaskHeader({ taskName, taskId, id }: { taskName: string,
 
   useEffect(() => {
     const fetchEventPeople = async () => {
-      const res = await getEventPeople(id)
+      const res: PeopleType[] = await getEventPeople(id)
       if (res?.length) {
         setEventPeople(res.filter(i => !i.child).map(i => i.name))
       }
