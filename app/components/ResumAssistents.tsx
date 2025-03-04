@@ -11,18 +11,11 @@ export default function ResumAssistents({ dataPeople, id }: { dataPeople: People
     <div>
       <div>
         <h4 onClick={() => setShowResum(!showResum)} className="text-4xl cursor-pointer hover:bg-red-800 font-bold bg-black text-white">Resum assistents <span>{showResum ? '-' : '+'}</span></h4>
-        {showResum && <dl className="max-w-md divide-y divide-gray-200">
+        {showResum && <p className="mt-2 mb-2">
           {
-            dataPeople.map(i => (
-              <div key={`item-${i.name}`} className="flex flex-col pb-3">
-                <dt className="mb-1 text-sm font-bold mt-2">{i.name}</dt>
-                <dd className="text-xs">Carns: {i.meat.join(', ')}</dd>
-                <dd className="text-xs">Begudes: {i.drinks.join(', ')}</dd>
-              </div>
-            ))
+            dataPeople.map(i => i.name).join(', ')
           }
-        </dl>
-        }
+        </p>}
       </div>
       <Link href={`/people/${id}`}><span className="font-bold text-white bg-black">Afegir assistent 👉</span></Link>
     </div>
