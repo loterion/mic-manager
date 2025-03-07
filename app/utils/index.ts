@@ -4,8 +4,8 @@ import { PersonFormSchema } from '../components/PeopleForm'
 
 function calculateCalzots(data: z.infer<typeof PersonFormSchema>[]): number {
   const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
-  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
-  return (adultsCount * 15) + (childCount * 10)
+  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : acc, 0, data)
+  return (adultsCount * 20) + (childCount * 10)
 }
 
 function calculateDrinks(data: z.infer<typeof PersonFormSchema>[]){
@@ -31,13 +31,13 @@ function calculateDrinks(data: z.infer<typeof PersonFormSchema>[]){
 
 function calculateMeat(data: z.infer<typeof PersonFormSchema>[]) {
   const meatConversion = {
-    xai: 0.1,
+    xai: 0.25,
     botifarra: 0.1,
     botifarra_negre: 0.1,
-    papada: 0.1,
-    careta: 0.1,
-    xoriço: 0.1,
-    txistorra: 0.1,
+    papada: 0.06,
+    careta: 0.06,
+    xoriço: 0.06,
+    txistorra: 0.06,
     bou: 0.1,
   }
 
@@ -50,18 +50,24 @@ function calculateMeat(data: z.infer<typeof PersonFormSchema>[]) {
 
 export function calculateBread(data: z.infer<typeof PersonFormSchema>[]){
   const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
-  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
+  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : acc, 0, data)
   return ((adultsCount * 2 + childCount + 1.5) / 12).toFixed(1)
 }
 
 export function calculateSauce(data: z.infer<typeof PersonFormSchema>[]){
   const adultsCount = R.reduce((acc, i) => i.child ? acc : acc + 1, 0, data)
-  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : 0, 0, data)
-  return (adultsCount * 0.2 + childCount * 0.1).toFixed(1)
+  const childCount = R.reduce((acc, i) => i.child ? acc + 1 : acc, 0, data)
+  return (adultsCount * 0.15 + childCount * 0.1).toFixed(1)
 }
 
 export function calculateIce(people: number){
   return (0.6 * people).toFixed(1)
+}
+
+export function calculateChildren(data:z.infer<typeof PersonFormSchema>[]){
+  const res =  R.reduce((acc, i) => i.child ? acc + 1 : acc, 0, data)
+  console.log(res)
+  return res
 }
 
 export function getShoppingList(data: z.infer<typeof PersonFormSchema>[]){
@@ -71,6 +77,7 @@ export function getShoppingList(data: z.infer<typeof PersonFormSchema>[]){
     drinks: calculateDrinks(data),
     meat: calculateMeat(data),
     bread: calculateBread(data),
-    ice: calculateIce(data.length)
+    ice: calculateIce(data.length),
+    children: calculateChildren(data)
   }
 }

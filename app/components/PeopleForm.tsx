@@ -46,9 +46,10 @@ const meats = [
 const softDrinksEnum = z.enum(softDrinks as [string, ...[]])
 const hardDrinksEnum = z.enum(hardDrinks as [string, ...[]])
 export const PersonFormSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Introdueix un nom vàlid'
-  }),
+  name: z
+    .string()
+    .min(2, { message: 'El nom ha de tenir al menys 2 caracters.' })
+    .refine((value) => /^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/.test(value ?? ''), 'Nom invalid'),
   child: z.boolean().default(false),
   calzots: z.boolean().default(true),
   drinks: z
