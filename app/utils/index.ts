@@ -65,9 +65,7 @@ export function calculateIce(people: number){
 }
 
 export function calculateChildren(data:z.infer<typeof PersonFormSchema>[]){
-  const res =  R.reduce((acc, i) => i.child ? acc + 1 : acc, 0, data)
-  console.log(res)
-  return res
+  return R.reduce((acc, i) => i.child ? acc + 1 : acc, 0, data)
 }
 
 export function getShoppingList(data: z.infer<typeof PersonFormSchema>[]){

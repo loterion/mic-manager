@@ -102,3 +102,17 @@ export async function getPeopleTask(eventName:string, taskName: string){
   }
   return data[0]
 }
+
+export async function getPeopleTasks(eventName:string){
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+  const { data, error } = await supabase
+    .from('tasks')
+    .select()
+    .eq('event_name', eventName)
+  if(error) {
+    console.log({error})
+    notFound()
+  }
+  return data
+}

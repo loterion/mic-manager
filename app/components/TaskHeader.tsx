@@ -11,39 +11,16 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { union } from "ramda"
-import { getEventPeople, getPeopleTask, insertPeopleTask, updatePeopleTask } from "../actions"
-import { PeopleType } from "../types"
+import { insertPeopleTask, updatePeopleTask } from "../actions"
+import { useRouter } from "next/navigation"
 
-export default function TaskHeader({ taskName, taskId, id }: { taskName: string, taskId: string, id: string }) {
-  const [personsInCharge, setPersonsInCharge] = useState<string[]>([])
+export default function TaskHeader({ adults, personsInCharge = [], taskName, taskId, id }: { adults: string[], personsInCharge: string[], taskName: string, taskId: string, id: string }) {
   const [showForm, setShowForm] = useState(false)
-  const [eventPeople, setEventPeople] = useState([])
-
-  const fetchPeopleTask = async (eventName: string, taskName: string) => {
-    const res = await getPeopleTask(eventName, taskName)
-    if (res?.people) {
-      setPersonsInCharge(res.people)
-    }
-  }
-
-  useEffect(() => {
-    fetchPeopleTask(id, taskId)
-  }, [])
-
-  useEffect(() => {
-    const fetchEventPeople = async () => {
-      const res: PeopleType[] = await getEventPeople(id)
-      if (res?.length) {
-        setEventPeople(res.filter(i => !i.child).map(i => i.name))
-      }
-    }
-    fetchEventPeople()
-  }, [])
-
+  const router = useRouter()
   const FormSchema = z.object({
-    name: z.enum(eventPeople, {
+    name: z.enum(adults, {
       message: 'Introdueix un nom vàlid'
     }),
   })
@@ -66,8 +43,8 @@ export default function TaskHeader({ taskName, taskId, id }: { taskName: string,
     } else {
       await updatePeopleTask(params)
     }
-    fetchPeopleTask(id, taskId)
     setShowForm(false)
+    router.refresh()
   }
 
   return (
