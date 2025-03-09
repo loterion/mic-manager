@@ -1,7 +1,7 @@
 'use server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { z } from "zod"
 import { PersonFormSchema } from './components/PeopleForm'
 import { EventFormSchema } from './components/EventForm'
@@ -39,13 +39,18 @@ export async function getEventPeople(eventName: string){
 export async function createEvent(data: z.infer<typeof EventFormSchema>) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
-  const { error } = await supabase
+  const { error, status } = await supabase
     .from('events')
     .insert(data)
-    if(error) {
-      console.log({error})
-      notFound()
-    } 
+
+  if(error) {
+    console.log({error})
+    notFound()
+  } 
+
+  if(status === 201){
+    redirect(`/people/${data.name}`)
+  }
 }
 
 export async function addPerson(data: { event_name: string } & z.infer<typeof PersonFormSchema>) {

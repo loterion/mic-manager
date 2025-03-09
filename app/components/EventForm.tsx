@@ -22,76 +22,28 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
-import { useRouter } from "next/navigation"
 import { createEvent } from "../actions"
-import { uniqueNamesGenerator, Config, adjectives } from 'unique-names-generator';
-import { useState } from "react"
-
-const micMembersNames = [
-  'jivaro',
-  'nando',
-  'ferran',
-  'jordi',
-  'espinete',
-  'roura',
-  'paco',
-  'guisan',
-  'vilas',
-  'keroana',
-  'carmeta',
-  'nuria',
-  'isabel',
-  'milena',
-  'lotta',
-  'albert',
-  'fufi',
-  'xisca',
-  'mariona',
-  'lot',
-  'damian',
-  'vanessa',
-  'silvia',
-  'ignasi',
-  'mailen',
-  'vinyet',
-  'nil',
-  'adriansito'
-]
-
-const customConfig: Config = {
-  dictionaries: [adjectives, micMembersNames],
-  separator: ' ',
-  style: 'capital',
-  length: 2,
-};
 
 export const EventFormSchema = z.object({
   name: z.string().min(5, {
     message: "El nom ha de tenir un mínim de 5 caracters",
   }),
   event_date: z.date({ message: "Selecciona una data vàlida" }),
-  place: z.string().min(5, { message: "L'adreça ha de tenir un mínim de 5 caracters" }),
+  place: z.string().min(3, { message: "L'adreça ha de tenir un mínim de 3 caracters" }),
 })
 
 export default function EventForm() {
-  const router = useRouter();
-  const [eventName, setEventName] = useState<string>(uniqueNamesGenerator(customConfig))
   const form = useForm<z.infer<typeof EventFormSchema>>({
     resolver: zodResolver(EventFormSchema),
     defaultValues: {
-      name: eventName,
+      name: '',
       event_date: new Date(),
       place: "",
     },
   })
 
-  function updateEventName() {
-    setEventName(uniqueNamesGenerator(customConfig))
-  }
-
   function onSubmit(data: z.infer<typeof EventFormSchema>) {
     createEvent(data)
-    router.push(`/people/${eventName}`)
   }
 
   return (
@@ -104,10 +56,10 @@ export default function EventForm() {
             <FormItem>
               <FormLabel>Nom</FormLabel>
               <FormControl>
-                <Input placeholder="Títol" {...field} value={eventName} />
+                <Input placeholder="Títol" {...field} />
               </FormControl>
               <FormDescription>
-                Nom de l&apos;esdeveniment generat aleatoriament. Si no t&apos;agrada <span className="text-blue-700 cursor-pointer" onClick={() => updateEventName()}>click aquí</span>
+                Nom de l&apos;esdeveniment.
               </FormDescription>
               <FormMessage />
             </FormItem>
