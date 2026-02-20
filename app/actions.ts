@@ -6,13 +6,13 @@ import { z } from "zod"
 import { PersonFormSchema } from './components/PeopleForm'
 import { EventFormSchema } from './components/EventForm'
 
-export async function getEvent(eventName: string){
+export async function getEvent(id: string){
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { data, error } = await supabase
     .from('events')
     .select()
-    .eq('name', eventName)
+    .eq('event_id', id)
 
     if(error) {
       console.log({error})
@@ -21,13 +21,13 @@ export async function getEvent(eventName: string){
     return data[0]
 }
 
-export async function getEventPeople(eventName: string){
+export async function getEventPeople(id: string){
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { data, error } = await supabase
     .from('people')
     .select()
-    .eq('event_name', eventName)
+    .eq('event_id', id)
   
   if(error) {
     console.log({error})
@@ -39,33 +39,34 @@ export async function getEventPeople(eventName: string){
 export async function createEvent(data: z.infer<typeof EventFormSchema>) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
-  const { error, status } = await supabase
+  const { error, status, data: insertData } = await supabase
     .from('events')
     .insert(data)
+    .select()
 
   if(error) {
     console.log({error})
     notFound()
   } 
 
-  if(status === 201){
-    redirect(`/people/${data.name}`)
+  if(status === 201 && insertData?.length){
+    redirect(`/people/${insertData[0].event_id}`)
   }
 }
 
-export async function addPerson(data: { event_name: string } & z.infer<typeof PersonFormSchema>) {
+export async function addPerson(data: { event_id: string } & z.infer<typeof PersonFormSchema>) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { error } = await supabase
     .from('people')
-    .insert(data)
+    .insert({...data})
   if(error) {
-    console.log({error})
+    console.log('addPerson', {error})
     notFound()
   } 
 }
 
-export async function insertPeopleTask(data: {name: string, people: string[], event_name: string}){
+export async function insertPeopleTask(data: {name: string, people: string[], event_id: string}){
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { error } = await supabase
@@ -74,18 +75,18 @@ export async function insertPeopleTask(data: {name: string, people: string[], ev
     data,
   ])
   if(error) {
-    console.log({error})
+    console.log('insertPeopleTask', {error})
     notFound()
   }
 }
 
-export async function updatePeopleTask(data: {name: string, people: string[], event_name: string}){
+export async function updatePeopleTask(data: {name: string, people: string[], event_id: string}){
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { error } = await supabase
     .from('tasks')
     .update({ people: data.people })
-    .eq('event_name', data.event_name)
+    .eq('event_id', data.event_id)
     .eq('name', data.name)
   if(error) {
     console.log({error})
@@ -93,13 +94,13 @@ export async function updatePeopleTask(data: {name: string, people: string[], ev
   }
 }
 
-export async function getPeopleTask(eventName:string, taskName: string){
+export async function getPeopleTask(id:string, taskName: string){
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { data, error } = await supabase
     .from('tasks')
     .select()
-    .eq('event_name', eventName)
+    .eq('event_id', id)
     .eq('name', taskName)
   if(error) {
     console.log({error})
@@ -108,13 +109,13 @@ export async function getPeopleTask(eventName:string, taskName: string){
   return data[0]
 }
 
-export async function getPeopleTasks(eventName:string){
+export async function getPeopleTasks(id:string){
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
   const { data, error } = await supabase
     .from('tasks')
     .select()
-    .eq('event_name', eventName)
+    .eq('event_id', id)
   if(error) {
     console.log({error})
     notFound()

@@ -1,6 +1,6 @@
 import Link from "next/link"
-import PeopleForm from "../../components/PeopleForm"
 import { getEvent } from "@/app/actions"
+import PeopleForm from "@/app/components/PeopleForm"
 
 export default async function People({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

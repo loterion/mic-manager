@@ -8,7 +8,7 @@ export default async function People({ params }: { params: Promise<{ id: string 
         <span className="text-4xl bg-black text-white">Gràcies!</span><br />
       </h3>
       <Link href={`/people/${id}`}><span className="font-bold text-white bg-black">Afegir un altre assistent 👉</span></Link>
-      <Link href={`/summary/${id}`}><span className="font-bold text-white bg-black">Anar al resum ❤️​</span></Link>
+      <Link href={`/summary/${id}`}><span className="font-bold text-white bg-black">Anar al resum</span></Link>
     </>
   )
 }

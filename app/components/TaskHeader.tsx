@@ -36,7 +36,7 @@ export default function TaskHeader({ adults, personsInCharge = [], taskName, tas
     const params = {
       name: taskId,
       people: union(personsInCharge, [data.name]),
-      event_name: decodeURI(id)
+      event_id: id
     }
     if (!personsInCharge.length) {
       await insertPeopleTask(params)
